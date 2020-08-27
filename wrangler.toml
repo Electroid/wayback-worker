@@ -1,0 +1,6 @@
+name = "image-fixer"
+type = "javascript"
+workers_dev = true
+route = ""
+zone_id = ""
+
