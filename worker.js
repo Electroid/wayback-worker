@@ -18,6 +18,11 @@ const cf = {
 }
 
 async function fetchWithImageFix(request) {
+  var url = new URL(request.url)
+  if (url.pathname.startsWith('/_archive')) {
+    return fetch(url.searchParams.get('url'), { cf })
+  }
+
   return new HTMLRewriter()
     .on('img', new ImageFixer())
     .transform(await fetch(request))
@@ -62,7 +67,7 @@ async function fixImageUrl(url) {
       archiveUrl.pathname.substring(index)
     console.log('Fixed image: ' + archiveUrl)
 
-    return archiveUrl
+    return `/_archive?url=${archiveUrl}`
   } catch (err) {
     console.log('Missing image: ' + url)
     return response.url
